@@ -4,19 +4,19 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import teamcode.Objects.DriveTrain;
-import teamcode.Objects.Grabber;
+import teamcode.Objects.Intake;
 
 
-@TeleOp(name ="HOWDY! (That's the name not the greeting) ON THIS EPISODE OF A NEW AND IMPROVED <HOWDY!> SERIES, TWO HOWDERS TWO WORK TOGETHER TO SUCCESSFULLY OUT HOWDY THE COMPETITION.", group = "TeleOp")
+@TeleOp(name ="We don't know what to name this robot help", group = "TeleOp")
 public class DualDriverTeleOp extends OpMode {
     //Initializing the main objects:
-    Grabber grabber;
+    Intake grabber;
     DriveTrain driveTrain;
 
     @Override
     public void init(){
         //Hardware mapping the servos:
-        grabber = Grabber.initGrabber(hardwareMap);
+        grabber = Intake.initGrabber(hardwareMap);
 
         driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.FLOAT);
         driveTrain.resetEncoders();
@@ -30,16 +30,14 @@ public class DualDriverTeleOp extends OpMode {
         driveTrain.checkToggleSpeed(gamepad1);
         DriveTrain.logTelemetry(telemetry, driveTrain);
 
-        //Yoinkage System (Servos)
-        grabber.ManualToggleYoinker(gamepad2);
-        grabber.YoinkHingeage(gamepad2);
+        //Intake System (Servos)
+        grabber.RubberbandDoom(gamepad2);
+        grabber.TerrificTransfer(gamepad2);
 
-        //Hoisting System
-        grabber.Hoistage(gamepad2);
-        grabber.Hingeing(gamepad2);
-        grabber.Anching(gamepad2);
+        //Launching System
+        grabber.Lunching(gamepad2);
+        grabber.Luncher(gamepad2);
 
-        //Arm controls
 
     }
 

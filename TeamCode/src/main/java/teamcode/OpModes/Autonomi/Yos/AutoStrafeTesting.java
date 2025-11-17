@@ -1,25 +1,27 @@
 package teamcode.OpModes.Autonomi.Yos;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import teamcode.Objects.BananaFruit;
 import teamcode.Objects.DriveTrain;
-import teamcode.Objects.Grabber;
+import teamcode.Objects.Intake;
 
-
-//@Autonomous(name ="StrafinRobo")
+@Disabled
+@Autonomous(name ="StrafinRobo")
 public class AutoStrafeTesting extends LinearOpMode {
 
     DriveTrain driveTrain;
-    Grabber grabber;
+    Intake intake;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
 
         driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE);
-        grabber = Grabber.initGrabber(hardwareMap);
+        intake = Intake.initGrabber(hardwareMap);
 
         telemetry.addData("IsBusy", driveTrain.isBusy());
         driveTrain.logTelemetry(telemetry, driveTrain);

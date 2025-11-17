@@ -1,21 +1,22 @@
 package teamcode.OpModes.TeleOp.Yos;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import teamcode.Objects.DriveTrain;
-import teamcode.Objects.Grabber;
+import teamcode.Objects.Intake;
 
-
-@TeleOp(name ="THE END TO A 2 CHAINZ SAGA... ON THE LAST EPISODE OF TWO CHAINZ TWO 222 CHAINZ, OUR HEROIC CHAINZ PUT AN END TO THEIR JOURNEY. NOW, A NEW HERO, HOWDY!, MAKES THEIR DEBUT IN THE NEXT FIRST ROBOTICS COMPETITION! ONLY FATE CAN TELL HOW THIS STORY WILL GO...", group = "TeleOp")
+@Disabled
+@TeleOp(name ="WHAT IN THE WORLD DO WE NAME THIS STINKIN ROBOT!!!!!!!!!!!!!", group = "TeleOp")
 public class SingleDriverTeleop extends OpMode {
     //Initializing the main objects:
-    Grabber grabber;
+    Intake intake;
     DriveTrain driveTrain;
 
     @Override
     public void init(){
         //Hardware mapping the servos:
-        grabber = Grabber.initGrabber(hardwareMap);
+        intake = Intake.initGrabber(hardwareMap);
         driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.FLOAT);
 
         driveTrain.resetEncoders();
@@ -29,11 +30,10 @@ public class SingleDriverTeleop extends OpMode {
         driveTrain.checkToggleSpeed(gamepad1);
         DriveTrain.logTelemetry(telemetry, driveTrain);
 
-        //Grabber System (Servos)grabber.ManualToggleYoinker(gamepad1);
-        grabber.YoinkHingeage(gamepad1);
+        //Intake System (Servos)
 
-        //Linear Bearing Slides controls (Lifting with Motors)
-        grabber.SingleHoistage(gamepad1);
-        grabber.SingleHingeing(gamepad1);
+
+        //DOUBLE FLYWHEEL ACTION (Launching with Motors)
+
         }
 }

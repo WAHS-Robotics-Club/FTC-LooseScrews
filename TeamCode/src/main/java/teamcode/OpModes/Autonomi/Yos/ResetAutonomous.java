@@ -1,22 +1,25 @@
 package teamcode.OpModes.Autonomi.Yos;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import teamcode.Objects.BananaFruit;
 import teamcode.Objects.DriveTrain;
-import teamcode.Objects.Grabber;
+import teamcode.Objects.Intake;
 
-//@Autonomous(name ="Reset - Autonomous")
+@Disabled
+@Autonomous(name ="Reset - Autonomous")
 public class ResetAutonomous extends LinearOpMode {
 
     DriveTrain driveTrain;
-    Grabber grabber;
+    Intake intake;
 
     @Override
     public void runOpMode() throws InterruptedException {
         driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE);
-        grabber = Grabber.initGrabber(hardwareMap);
+        intake = Intake.initGrabber(hardwareMap);
 
         telemetry.addData("IsBusy", driveTrain.isBusy());
         driveTrain.logTelemetry(telemetry, driveTrain);
@@ -30,21 +33,6 @@ public class ResetAutonomous extends LinearOpMode {
 
         //ONLY MODIFY STUFF AFTER THIS
 
-    /*  Grabber Commands:
-        grabber.setHeightTo(telemetry, 500);
-        grabber.toggleGrabberAuto();
-
-        Drive Train Commands:
-        driveTrain.moveForwardsBy(telemetry, 10);
-        driveTrain.turnToHeading(gyro, telemetry, 90);
-
-        Misc:
-        sleep(1000);
-        misc.toggleCarouselAuto();
-    */
-
-        //grabber.toggleGrabberAuto();
-        // grabber.setHeightTo(telemetry, 0);
         sleep(500);
 
     }

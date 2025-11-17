@@ -6,18 +6,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import teamcode.Objects.BananaFruit;
 import teamcode.Objects.DriveTrain;
-import teamcode.Objects.Grabber;
+import teamcode.Objects.Intake;
 
-@Autonomous(name ="Universal Parking - Autonomous - OSIDE")
-public class UniversalParking_OSIDE extends LinearOpMode {
+@Autonomous(name ="Universal Parking - Autonomous")
+public class UniversalParking extends LinearOpMode {
 
     DriveTrain driveTrain;
-    Grabber grabber;
+    Intake intake;
 
     @Override
     public void runOpMode() throws InterruptedException {
         driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE);
-        grabber = Grabber.initGrabber(hardwareMap);
+        intake = Intake.initGrabber(hardwareMap);
 
         telemetry.addData("IsBusy", driveTrain.isBusy());
         driveTrain.logTelemetry(telemetry, driveTrain);
@@ -27,14 +27,8 @@ public class UniversalParking_OSIDE extends LinearOpMode {
         gyro.runBananaFruit(hardwareMap, telemetry);
         telemetry.update();
 
-        waitForStart();
+        waitForStart(); //ONLY MODIFY STUFF AFTER THIS
 
-
-        //ONLY MODIFY STUFF AFTER THIS
-        sleep(20);
-        driveTrain.moveForwardsBy(telemetry, 4);
-        driveTrain.turnToHeading(gyro, telemetry, 90);
-        driveTrain.moveForwardsBy(telemetry, 48);
 
 
         //STILL REQUIRES TESTING

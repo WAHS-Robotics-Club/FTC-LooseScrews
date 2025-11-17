@@ -1,6 +1,7 @@
 package teamcode.Objects;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -9,7 +10,8 @@ import teamcode.Objects.Tool.Toggle;
 
 public class DriveTrain {
     //Initializing the dc motor objects:
-    //Gradle Evil YES IT IS!!!!!!!!!!!!!!
+    //Gradle Evil
+    //(YES IT IS!!!!!!!!!!!!!!)
 
     public DcMotor flMotor;
     public DcMotor frMotor;
@@ -21,13 +23,16 @@ public class DriveTrain {
     final double HEADING_ACCURACY = 2;
 
     public static DriveTrain initDriveTrain(HardwareMap hardwareMap, DcMotor.ZeroPowerBehavior brakeAction) {
-        //Hardware mapping the motors:
+        //Hardware mapping the motors
         DriveTrain driveTrain = new DriveTrain();
 
         driveTrain.flMotor = hardwareMap.dcMotor.get("Fl");
         driveTrain.frMotor = hardwareMap.dcMotor.get("Fr");
         driveTrain.blMotor = hardwareMap.dcMotor.get("Bl");
         driveTrain.brMotor = hardwareMap.dcMotor.get("Br");
+
+        driveTrain.blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        driveTrain.brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         driveTrain.flMotor.setPower(0);
         driveTrain.frMotor.setPower(0);

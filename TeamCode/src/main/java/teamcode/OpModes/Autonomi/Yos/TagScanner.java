@@ -10,10 +10,10 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import android.util.Size;
 
-import teamcode.Objects.AprilTag;
+import teamcode.Objects.Tool.AprilTag;
 import teamcode.Objects.BananaFruit;
 import teamcode.Objects.DriveTrain;
-import teamcode.Objects.Grabber;
+import teamcode.Objects.Intake;
 
 //Goal : See the tag and find the distance from tag to bot (CHECK)
 
@@ -37,7 +37,7 @@ import teamcode.Objects.Grabber;
         AprilTag aprilTag;
 
         DriveTrain driveTrain;
-        Grabber grabber;
+        Intake intake;
 
         //HOWDY! I don't know if this works but I'm working on it!
 
@@ -61,7 +61,7 @@ import teamcode.Objects.Grabber;
                     .build();
 
             driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE);
-            grabber = Grabber.initGrabber(hardwareMap);
+            intake = Intake.initGrabber(hardwareMap);
 
             telemetry.addData("IsBusy", driveTrain.isBusy());
             DriveTrain.logTelemetry(telemetry, driveTrain);
