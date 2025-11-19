@@ -29,6 +29,7 @@
 
 package teamcode.Objects;
 
+import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -61,6 +62,7 @@ public class BananaFruit {
 
     // The IMU sensor object
     BNO055IMU imu;
+
 
     // State used for updating telemetry
     Orientation angles;
