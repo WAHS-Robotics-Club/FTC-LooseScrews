@@ -1,6 +1,7 @@
 package teamcode.OpModes.Autonomi.Yos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -8,6 +9,7 @@ import teamcode.Objects.BananaFruit;
 import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Intake;
 
+@Disabled
 @Autonomous(name ="Universal Parking - Autonomous")
 public class UniversalParking extends LinearOpMode {
 
@@ -16,7 +18,7 @@ public class UniversalParking extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE);
+        driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE, telemetry);
         intake = Intake.initGrabber(hardwareMap);
 
         telemetry.addData("IsBusy", driveTrain.isBusy());

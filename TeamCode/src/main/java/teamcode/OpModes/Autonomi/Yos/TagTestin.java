@@ -1,23 +1,29 @@
 package teamcode.OpModes.Autonomi.Yos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import teamcode.Objects.BananaFruit;
 import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Intake;
+import teamcode.Objects.Tool.AprilTag;
 
+@Autonomous(name = "TagTester")
+public class TagTestin extends OpMode {
 
-@Autonomous(name ="Buggy Auto For Red Team")
-public class ResetAutonomous extends LinearOpMode {
-
+    AprilTag aprilTag = new AprilTag();
     DriveTrain driveTrain;
     Intake intake;
+         //MAIN CODE GOES AFTER THIS.
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void init() {
+        aprilTag.initAprilTag(hardwareMap, telemetry);
+
         driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE, telemetry);
         intake = Intake.initGrabber(hardwareMap);
 
@@ -28,15 +34,18 @@ public class ResetAutonomous extends LinearOpMode {
         BananaFruit gyro = new BananaFruit();
         gyro.runBananaFruit(hardwareMap, telemetry);
         telemetry.update();
+    }
 
-        waitForStart();
+    @Override
+    public void loop() {
+        //update vision pootal
+        aprilTag.update();
 
-        //ONLY MODIFY STUFF AFTER THIS
+        //First we scan
+        AprilTagDetection id24 = aprilTag.getSpecificTag(24);
+        //Then we read
+        aprilTag.TagTelemetry(id24);
 
-        driveTrain.moveForwardsBy(telemetry, 36);
-        driveTrain.StrafeRightBy(telemetry,14);
-        stop();
-
-
+        //LET'S SCANREAD! (wat)
     }
 }

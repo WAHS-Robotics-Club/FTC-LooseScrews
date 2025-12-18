@@ -9,6 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
+import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -18,13 +20,6 @@ import java.util.List;
 
 public class AprilTag {
 
-    public double fx = 1502.91;
-    public double fy = 1052.91;
-    public double cx = 970.487;
-    public double cy = 389.479;
-
-    public static final boolean calibratedCamera = true;
-
     private AprilTagProcessor aprilTagProcessor;
     private VisionPortal visionPortal;
 
@@ -32,19 +27,21 @@ public class AprilTag {
 
     private Telemetry telemetry;
 
-    private final int DESIRED_TAG_ID = -1;
-    private AprilTagDetection desiredTag = null;
-
-    boolean targetFound = false;
+    public double launchDist = 34;
+    final public double LAUNCHDIST_ACCURACY = 1.5;
 
     public void initAprilTag (HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
+
+        AprilTagLibrary tagLibrary = AprilTagGameDatabase.getDecodeTagLibrary();
+
         aprilTagProcessor = new AprilTagProcessor.Builder()
-                .setDrawTagOutline(true)
                 .setDrawAxes(true)
                 .setDrawTagID(true)
+                .setDrawTagOutline(true)
                 .setDrawCubeProjection(true)
-                .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
+                .setTagLibrary(tagLibrary)
+                .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .build();
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
@@ -56,7 +53,7 @@ public class AprilTag {
 
     }
 
-    public void update (Telemetry telemetry) {
+    public void update() {
         detectedTags = aprilTagProcessor.getDetections();
     }
 
@@ -74,6 +71,30 @@ public class AprilTag {
         } else {
             telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectedID.id));
             telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detectedID.center.x, detectedID.center.y));
+        }
+    }
+
+    public void LaunchGauger (AprilTagDetection detectedID) {
+        if (detectedID == null) {
+            telemetry.addLine();
+            telemetry.addLine("Hey buddy. Drive in front of the goal if you want to score some points.");
+        } else if (detectedID.ftcPose.y < launchDist - LAUNCHDIST_ACCURACY) {
+            double CurrentDistance = detectedID.ftcPose.y;
+            double correction = Math.abs(launchDist - CurrentDistance);
+            telemetry.addLine();
+            telemetry.addLine(String.format("HEY BUD. YOU'RE TOO CLOSE TO LAUNCH"));
+            telemetry.addLine(String.format("Current Range: %6.1f (in)", detectedID.ftcPose.y));
+            telemetry.addLine(String.format("You gotta move %6.1f in backwards", correction));
+        } else if (detectedID.ftcPose.y > launchDist + LAUNCHDIST_ACCURACY) {
+            double CurrentDistance = detectedID.ftcPose.y;
+            double correction = Math.abs(launchDist - CurrentDistance);
+            telemetry.addLine();
+            telemetry.addLine(String.format("HEY PAL. YOU'RE NOT ClOSE ENOUGH TO LAUNCH"));
+            telemetry.addLine(String.format("Current Range: %6.1f (in)", detectedID.ftcPose.y));
+            telemetry.addLine(String.format("You gotta move %6.1f in forwards", correction));
+        } else if (detectedID.ftcPose.y == launchDist) {
+            telemetry.addLine();
+            telemetry.addLine("How is this possible. You are exactly the right distance 0_0 ");
         }
     }
 

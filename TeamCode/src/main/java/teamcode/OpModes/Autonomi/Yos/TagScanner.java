@@ -1,6 +1,7 @@
 package teamcode.OpModes.Autonomi.Yos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -16,7 +17,7 @@ import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Intake;
 
 //Goal : See the tag and find the distance from tag to bot (CHECK)
-
+    @Disabled
     @Autonomous(name ="THE ERA OF KNOWLEDGE AND PROSPERITY HAS BEGUN. ENTER: APRILTAGS!")
     public class TagScanner extends LinearOpMode {
 
@@ -60,7 +61,7 @@ import teamcode.Objects.Intake;
                     .setCameraResolution(new Size(640, 480))
                     .build();
 
-            driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE);
+            driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.BRAKE, telemetry);
             intake = Intake.initGrabber(hardwareMap);
 
             telemetry.addData("IsBusy", driveTrain.isBusy());

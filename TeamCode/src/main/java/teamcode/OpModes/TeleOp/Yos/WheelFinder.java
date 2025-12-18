@@ -1,5 +1,6 @@
 package teamcode.OpModes.TeleOp.Yos;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Tool.Toggle;
 
+@Disabled
 @TeleOp(name ="WheelFinder - LS", group = "TeleOp")
 public class WheelFinder extends OpMode {
     //Initializing the main objects:
@@ -17,7 +19,7 @@ public class WheelFinder extends OpMode {
     @Override
     public void init(){
         //Hardware mapping the servos:
-        driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.FLOAT);
+        driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.FLOAT, telemetry);
 
         driveTrain.resetEncoders();
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
