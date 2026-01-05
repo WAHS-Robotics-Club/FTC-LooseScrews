@@ -107,6 +107,16 @@ public class AprilTag {
             }
         }
         return null;
+
+    }
+
+        public AprilTagDetection getGoalTag (int id) {
+            for (AprilTagDetection detection : detectedTags) {
+                if (detection.id == id && detection.metadata != null) {
+                    return detection;
+                }
+            }
+            return null;
     }
 
     public AprilTagDetection ObeliskScan () {

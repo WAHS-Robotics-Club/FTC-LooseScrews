@@ -1,6 +1,7 @@
 package teamcode.Objects;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,22 +12,26 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import teamcode.Objects.Tool.Toggle;
 
 public class Intake {
-    public CRServo RubaRolla;
+    public DcMotor RubaRolla;
     public Servo Pusher;
     public CRServo Vlift;
     public DcMotor Lwheel;
     public DcMotor Rwheel;
     private Toggle toggleRolla;
     public Servo Stopper;
-    private Toggle toggleTransferUp;
-    private Toggle toggleTransferDown;
+    private Toggle toggleVliftUp;
+    private Toggle toggleVliftDown;
+    private Toggle toggleAutoStopPush;
     private Toggle toggleStopa;
     private Toggle toggleDoobleLuncher;
+    private Toggle toggleCatchModeUno;
+    private Toggle toggleCatchModeDos;
 
     public static Intake initGrabber(HardwareMap hardwareMap) {
         //Creates and hardware maps the grabber element
         Intake intake = new Intake();
-        intake.RubaRolla = hardwareMap.crservo.get("RubaRolla");
+        intake.RubaRolla = hardwareMap.dcMotor.get("RubaRolla");
+        intake.RubaRolla.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.Pusher = hardwareMap.servo.get("Pusher");
         intake.Vlift = hardwareMap.crservo.get("Vlift");
         intake.Stopper = hardwareMap.servo.get("Stopper");
@@ -40,10 +45,13 @@ public class Intake {
         intake.Rwheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         intake.toggleRolla = new Toggle();
-        intake.toggleTransferUp = new Toggle();
-        intake.toggleTransferDown = new Toggle();
+        intake.toggleVliftUp = new Toggle();
+        intake.toggleVliftDown = new Toggle();
+        intake.toggleAutoStopPush = new Toggle();
         intake.toggleDoobleLuncher = new Toggle();
         intake.toggleStopa = new Toggle();
+        intake.toggleCatchModeUno = new Toggle();
+        intake.toggleCatchModeDos = new Toggle();
 
 
         return intake;
@@ -58,13 +66,13 @@ public class Intake {
         }
 
         if (toggleRolla.isToggled()) {
-            RubaRolla.setPower(-1);
+            RubaRolla.setPower(1);
         } else {
             RubaRolla.setPower(0);
         }
 
         if (gamepad.b && !(toggleRolla.isToggled())) {
-            RubaRolla.setPower(1);
+            RubaRolla.setPower(- 1);
         }
     }
 
@@ -75,9 +83,9 @@ public class Intake {
 
     public void checkToggleRolla (){
         if (toggleRolla.isToggled()) {
-            RubaRolla.setPower(-1);
+            RubaRolla.setPower(1);
         } else {
-            Stopper.setPosition(0);
+            RubaRolla.setPower(0);
         }
 
     }
@@ -98,8 +106,8 @@ public class Intake {
         }
 
         if (toggleStopa.isToggled()){
-             Stopper.setPosition(0.30);
-        } else {
+            Stopper.setPosition(0.4);
+        } else{
             Stopper.setPosition(0.93);
         }
     }
@@ -127,7 +135,7 @@ public class Intake {
         }
     }
 
-    public void toggleStopa () {
+    public void StopToggle () {
         toggleStopa.toggle();
         checkToggleStopa();
     }
@@ -166,18 +174,58 @@ public class Intake {
 
     }
 
-    public void autoLunchup () {
-        toggleTransferUp.toggle();
+    public void autoPusha () throws InterruptedException {
+        toggleAutoStopPush.toggle();
 
+        if (toggleAutoStopPush.isToggled()) {
+            Pusher.setPosition(9.2);
+        } else {
+            Pusher.setPosition(4);
+        }
     }
 
-    public void Upstop () {
+    public void VliftUp () {
+        toggleVliftUp.toggle();
 
+        if (toggleVliftUp.isToggled()) {
+            Vlift.setPower(1);
+        } else {
+            Vlift.setPower(0);
+        }
     }
 
-    public void autoLunchdown () {
+    public void VliftDown () {
+        toggleVliftDown.toggle();
 
+        if (toggleVliftDown.isToggled()) {
+            Vlift.setPower(-1);
+        } else {
+            Vlift.setPower(0);
+        }
     }
+
+    public void lunchingCycleforAuto () throws InterruptedException {
+        StopToggle();
+        VliftDown();
+        Thread.sleep(1500);
+        VliftDown();
+        autoPusha();
+        Thread.sleep(1000);
+        autoPusha();
+        Thread.sleep(1000);
+        autoPusha();
+        Thread.sleep(2000);
+        VliftUp();
+        Thread.sleep(6000);
+    }
+
+
+
+
+
+
+
+
 
     public void luncher (Gamepad gamepad) {
         if(gamepad.right_bumper){

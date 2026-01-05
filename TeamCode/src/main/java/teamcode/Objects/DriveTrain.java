@@ -36,9 +36,6 @@ public class DriveTrain {
         driveTrain.blMotor.setPower(0);
         driveTrain.brMotor.setPower(0);
 
-        driveTrain.blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        driveTrain.brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
         driveTrain.toggleSpeed = new Toggle();
 
         return driveTrain;
@@ -78,9 +75,9 @@ public class DriveTrain {
         resetEncoders();
         Thread.sleep(1);
         if (inches < 5) {
-            setBasePower(0.5);
+            setBasePower(0.8);
         } else {
-            setBasePower(0.4);
+            setBasePower(0.5);
         }
         int targetPosition;
         double rotations;
@@ -96,15 +93,13 @@ public class DriveTrain {
         Thread.sleep(1);
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         Thread.sleep(1);
-
-        //Try flipping targetposition in order to combat physical motor connection and actual encore direction
     }
 
     private void StrafeRightTo (double inches) throws InterruptedException{
         Thread.sleep(1);
         resetEncoders();
         Thread.sleep(1);
-        setBasePower(0.5);
+        setBasePower(0.8);
         int targetPosition;
         double rotations;
 
@@ -125,7 +120,7 @@ public class DriveTrain {
         Thread.sleep(1);
         resetEncoders();
         Thread.sleep(1);
-        setBasePower(0.5);
+        setBasePower(0.8);
         int targetPosition;
         double rotations;
 
@@ -219,7 +214,7 @@ public class DriveTrain {
         double modifier, startingPower, difference;
         difference = Math.abs(targetHeading - currentHeading);
         modifier = ((Math.sqrt((difference)))/2);
-        startingPower = 0.1;
+        startingPower = 0.1 ;
 
         if(targetHeading < currentHeading - HEADING_ACCURACY){
             flMotor.setPower(startingPower * modifier);

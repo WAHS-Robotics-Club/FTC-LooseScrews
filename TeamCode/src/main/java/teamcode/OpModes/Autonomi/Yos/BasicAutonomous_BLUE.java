@@ -10,7 +10,7 @@ import teamcode.Objects.Intake;
 
 
 @Autonomous(name ="BuggyAuto for Blue Alliance")
-public class ResetAutonomous_BLUE extends LinearOpMode {
+public class BasicAutonomous_BLUE extends LinearOpMode {
 
     DriveTrain driveTrain;
     Intake intake;
@@ -34,8 +34,6 @@ public class ResetAutonomous_BLUE extends LinearOpMode {
 
         driveTrain.moveForwardsBy(telemetry, 24);
         driveTrain.StrafeLeftBy(telemetry, 12);
-
-        stop();
 
 
     }

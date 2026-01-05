@@ -36,6 +36,7 @@ public class DualDriverTeleOp_RED extends OpMode {
         driveTrain.checkToggleSpeed(gamepad1);
         DriveTrain.logTelemetry(telemetry, driveTrain);
 
+
         //Intake & Transfer System (Servos)
         intake.rubberbandDoom(gamepad2);
         intake.terrificTransfer(gamepad2);

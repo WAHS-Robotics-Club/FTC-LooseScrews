@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import teamcode.Objects.BananaFruit;
 import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Intake;
@@ -31,6 +33,7 @@ public class UniversalParking extends LinearOpMode {
 
         waitForStart(); //ONLY MODIFY STUFF AFTER THIS
 
+        driveTrain.moveForwardsBy(telemetry, 24);
 
 
         //STILL REQUIRES TESTING

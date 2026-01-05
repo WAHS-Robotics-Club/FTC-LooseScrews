@@ -37,30 +37,40 @@ public class AprilTagin_RED extends LinearOpMode {
 
         waitForStart();//MAIN CODE GOES AFTER THIS.
 
-        //move to spot where robot WILL see the goaltag (robot forwards starts against the goal)
-        driveTrain.moveForwardsBy(telemetry, -36);
-        //update vision pootal
-        aprilTag.update();
-        //Scan the goal tag
-        AprilTagDetection goalTag = aprilTag.getSpecificTag(24);
+        //Here's the plan.
+        //First we figure out where we are on the field. I want an auto that works no matter where we start
+        //To do that we will look for the obelisk. If the robot can see it, we can assume we are starting in the small triangle.
+        //If the robot returns null, we can assume we are starting against the goal.
 
-        if (goalTag == null) { //checks if it's the right tag
-            telemetry.addLine("YOU FAILED!!!!!!!!!!! WOMP WOMP WOMP WOOOOOOOOMP!");
-            stop();
+        driveTrain.moveForwardsBy(telemetry, 36); //moves in order to catch obelisk
+        Thread.sleep(1000);
+        AprilTagDetection obeliskCode = aprilTag.ObeliskScan();
+        Thread.sleep(1500);
+        aprilTag.STOP();
+
+        if (obeliskCode.metadata == null) {
+            //This means we were against the goal. step one: rotate robot to see Obelisk
+
+            driveTrain.turnToHeading(gyro, telemetry, 90);
+            //obelisk scan again
+            Thread.sleep(1000);
+            obeliskCode = aprilTag.ObeliskScan();
+            Thread.sleep(1500);
+            aprilTag.STOP();
+
+            //
+
+
         } else {
-            double perfDist = launchDist - goalTag.ftcPose.y;
+            //This means we started in the small triangle. step one: run intake and pick up the correct order of artifacts
 
-            driveTrain.moveForwardsBy(telemetry, -perfDist);
-            driveTrain.turnToHeading(gyro, telemetry, goalTag.ftcPose.bearing);
+
+
         }
 
-        intake.toggleLuncher();
-        intake.toggleRolla();
-        Thread.sleep(1000);
+        //FAHHHH I need the real deal field in order to figure out these measurements bruh.
 
-        driveTrain.StrafeLeftBy(telemetry, 18);
 
-        //autonomous code that launches only 1 ball.
 
 
 
