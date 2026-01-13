@@ -42,15 +42,14 @@ public class DualDriverTeleOp_BLUE extends OpMode {
         intake.STOPIT(gamepad2);
         intake.logStopIt(telemetry);
 
-        //Launching System
-        intake.lunching(gamepad2);
-        intake.luncher(gamepad2);
-
         //AprilTag Telemetry System??!?!??!??!?!?!!?!?!
         aprilTag.update();
         AprilTagDetection goalTag = aprilTag.getSpecificTag(20);
         aprilTag.LaunchGauger(goalTag); //Basically it constantly searches for the goal tag
 
+        //Launching System
+        intake.lunching(gamepad2);
+        intake.luncher(gamepad2, aprilTag.velocitayEstimator(goalTag), telemetry);
 
 
     }

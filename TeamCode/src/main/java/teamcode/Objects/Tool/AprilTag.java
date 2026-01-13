@@ -27,8 +27,9 @@ public class AprilTag {
 
     private Telemetry telemetry;
 
-    public double launchDist = 34;
-    final public double LAUNCHDIST_ACCURACY = 1.5;
+    final public double minRange = 38;
+    final public double LAUNCHDIST_ACCURACY = 2;
+    final public double MAX_LAUNCHDIST = 3;
 
     public void initAprilTag (HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -77,28 +78,40 @@ public class AprilTag {
     public void LaunchGauger (AprilTagDetection detectedID) {
         if (detectedID == null) {
             telemetry.addLine();
-            telemetry.addLine("Hey buddy. Drive in front of the goal if you want to score some points.");
-        } else if (detectedID.ftcPose.y < launchDist - LAUNCHDIST_ACCURACY) {
-            double CurrentDistance = detectedID.ftcPose.y;
-            double correction = Math.abs(launchDist - CurrentDistance);
+            telemetry.addLine("Hey buddy. I can't see the goal. Do you wanna score points or not? -_-");
+        } else if (detectedID.ftcPose.range < (minRange + LAUNCHDIST_ACCURACY)) {
+            double CurrentDistance = detectedID.ftcPose.range;
+            double correction = Math.abs(minRange - CurrentDistance);
             telemetry.addLine();
             telemetry.addLine(String.format("HEY BUD. YOU'RE TOO CLOSE TO LAUNCH"));
-            telemetry.addLine(String.format("Current Range: %6.1f (in)", detectedID.ftcPose.y));
+            telemetry.addLine(String.format("Current Range: %6.1f (in)", detectedID.ftcPose.range));
             telemetry.addLine(String.format("You gotta move %6.1f in backwards", correction));
-        } else if (detectedID.ftcPose.y > launchDist + LAUNCHDIST_ACCURACY) {
-            double CurrentDistance = detectedID.ftcPose.y;
-            double correction = Math.abs(launchDist - CurrentDistance);
+        } else if (detectedID.ftcPose.range > minRange + LAUNCHDIST_ACCURACY) {
+            double CurrentDistance = detectedID.ftcPose.range;
+            double correction = Math.abs(minRange - CurrentDistance);
             telemetry.addLine();
             telemetry.addLine(String.format("HEY PAL. YOU'RE NOT ClOSE ENOUGH TO LAUNCH"));
-            telemetry.addLine(String.format("Current Range: %6.1f (in)", detectedID.ftcPose.y));
+            telemetry.addLine(String.format("Current Range: %6.1f (in)", detectedID.ftcPose.range));
             telemetry.addLine(String.format("You gotta move %6.1f in forwards", correction));
-        } else if (detectedID.ftcPose.y == launchDist) {
+        } else if (detectedID.ftcPose.range == minRange) {
             telemetry.addLine();
             telemetry.addLine("How is this possible. You are exactly the right distance 0_0 ");
         }
     }
 
-
+    public int velocitayEstimator (AprilTagDetection detectedID) {
+        int velocitay = 3100;
+        if (detectedID == null) {
+            velocitay = 0;
+        } else {
+            double d = ((Math.sqrt((Math.pow(detectedID.ftcPose.range, 2)) - (Math.pow(detectedID.ftcPose.z, 2)))) * 0.0254);
+            if (d <= MAX_LAUNCHDIST) {
+                double linearVelocitay = Math.sqrt((Math.pow(d, 2) * 9.81) / (((d * 0.900404044298) - (19.5)*0.0254) * 2 * (0.552264231634))); // The incredible William Lewis Equation
+                velocitay = (int) (5.5*((linearVelocitay * 60) / (2 * Math.PI * 0.1))); //Converting m/s to RPM (I put 6.4 cuz I really have no idea what I'm doing)
+            }
+        }
+        return velocitay;
+    }     //There's definitely some holes here that I will figure out tomorrow which is now today
 
     public AprilTagDetection getSpecificTag (int id) {
         for (AprilTagDetection detection : detectedTags) {
@@ -107,7 +120,6 @@ public class AprilTag {
             }
         }
         return null;
-
     }
 
         public AprilTagDetection getGoalTag (int id) {

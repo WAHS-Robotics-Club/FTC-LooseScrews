@@ -12,7 +12,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import android.util.Size;
 
 import teamcode.Objects.Tool.AprilTag;
-import teamcode.Objects.BananaFruit;
+import teamcode.Objects.Tool.BananaFruit;
 import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Intake;
 

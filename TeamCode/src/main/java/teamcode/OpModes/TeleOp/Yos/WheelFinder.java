@@ -6,13 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import teamcode.Objects.DriveTrain;
+import teamcode.Objects.Intake;
 import teamcode.Objects.Tool.Toggle;
-
 @Disabled
 @TeleOp(name ="WheelFinder - LS", group = "TeleOp")
 public class WheelFinder extends OpMode {
     //Initializing the main objects:
     DriveTrain driveTrain;
+    Intake intake;
 
     Toggle toggle;
 
@@ -20,6 +21,7 @@ public class WheelFinder extends OpMode {
     public void init(){
         //Hardware mapping the servos:
         driveTrain = DriveTrain.initDriveTrain(hardwareMap, DcMotor.ZeroPowerBehavior.FLOAT, telemetry);
+        intake = Intake.initGrabber(hardwareMap);
 
         driveTrain.resetEncoders();
         driveTrain.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -78,6 +80,17 @@ public class WheelFinder extends OpMode {
             } else {
                 driveTrain.brMotor.setPower(0);
             }
+        }
+
+        if (gamepad2.right_bumper) {
+            intake.Lwheel.setPower(1);
+            intake.Rwheel.setPower(1);
+
+            telemetry.addLine("Lwheel velocity at 1 is " + intake.Lwheel.getVelocity());
+            telemetry.addLine("Rwheel velocity at 1 is " + intake.Rwheel.getVelocity());
+        } else {
+            intake.Lwheel.setPower(0);
+            intake.Rwheel.setPower(0);
         }
     }
 

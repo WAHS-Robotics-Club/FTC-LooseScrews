@@ -1,16 +1,18 @@
 package teamcode.OpModes.Autonomi.Yos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-import teamcode.Objects.BananaFruit;
+import teamcode.Objects.Tool.BananaFruit;
 import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Intake;
 import teamcode.Objects.Tool.AprilTag;
 
+@Disabled
 @Autonomous(name = "It's Taging Time (Blue)")
 public class AprilTagin_BLUE extends LinearOpMode {
 

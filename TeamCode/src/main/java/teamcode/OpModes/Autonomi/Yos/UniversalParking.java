@@ -1,18 +1,15 @@
 package teamcode.OpModes.Autonomi.Yos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-import teamcode.Objects.BananaFruit;
+import teamcode.Objects.Tool.BananaFruit;
 import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Intake;
 
-@Disabled
-@Autonomous(name ="Universal Parking - Autonomous")
+
+@Autonomous(name ="Lame parking for if the new auto suddenly stops working")
 public class UniversalParking extends LinearOpMode {
 
     DriveTrain driveTrain;

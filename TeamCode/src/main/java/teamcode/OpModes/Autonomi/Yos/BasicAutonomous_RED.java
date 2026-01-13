@@ -6,13 +6,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-import teamcode.Objects.BananaFruit;
+import teamcode.Objects.Tool.BananaFruit;
 import teamcode.Objects.DriveTrain;
 import teamcode.Objects.Intake;
 import teamcode.Objects.Tool.AprilTag;
 
 
-@Autonomous(name ="TESTING NEW AUTO For Red Team")
+@Autonomous(name ="THIS IS ALLEN'S AUTO THAT WILL COOK IN THE COMPETITION NO JINX TRUST FRFR (RED ALLIANCE)")
 public class BasicAutonomous_RED extends LinearOpMode {
 
     DriveTrain driveTrain;
@@ -68,11 +68,16 @@ public class BasicAutonomous_RED extends LinearOpMode {
             } else if (goalTag.ftcPose.x < -1) {
                 driveTrain.StrafeLeftBy(telemetry, goalTag.ftcPose.x);
             }
-            Thread.sleep(100);
+            aprilTag.update();
+            AprilTagDetection goalTag2 = aprilTag.getSpecificTag(24);
+            Thread.sleep(1000);
+            aprilTag.STOP();
+            Thread.sleep(500);
             //turn robot so that it's perfectly perpendicular
-            driveTrain.turnToHeading(gyro, telemetry, goalTag.ftcPose.bearing);
+            driveTrain.turnToHeading(gyro, telemetry, goalTag2.ftcPose.bearing);
             Thread.sleep(100);
             //Lunching Begins
+            intake.toggleVelocitayDos();
             intake.toggleLuncher();
             Thread.sleep(1000);
             //Launch first ball
@@ -83,6 +88,7 @@ public class BasicAutonomous_RED extends LinearOpMode {
             Thread.sleep(1000);
             //Launch second AND THIRD ball
             intake.lunchingCycleforAuto();
+            driveTrain.StrafeRightBy(telemetry,18);
         }
 
 
