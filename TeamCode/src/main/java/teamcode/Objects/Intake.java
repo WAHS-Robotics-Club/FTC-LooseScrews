@@ -108,11 +108,12 @@ public class Intake {
     }
 
     public void STOPIT(Gamepad gamepad) {
-        if (gamepad.left_bumper) {
+        /* if (gamepad.left_bumper) {
             toggleStopa.toggle();
         }
+         */
 
-        if (toggleStopa.isToggled()) {
+        if (/*toggleStopa.isToggled()*/ gamepad.left_bumper) {
             Stopper.setPosition(0.4);
         } else {
             Stopper.setPosition(0.93);
@@ -254,7 +255,7 @@ public class Intake {
         double voltage = batteryVoltageSensor.getVoltage();
 
         if (toggleLuncherOverride.isToggled()) {
-
+            /*
             double maxRPM = velocitay * (voltage / 12);
             telemetry.addLine("CAMERA OVERRIDE IS ACTIVATED");
             if (toggleDoobleLuncher.isToggled()) {
@@ -267,6 +268,8 @@ public class Intake {
                 Rwheel.setVelocity(0);
             }
 
+             */
+
         } else {
 
             telemetry.addLine("AYO! THIS IS MANUAL LAUNCH MODE");
@@ -278,19 +281,19 @@ public class Intake {
 
                 if (gamepad.dpad_left) {
                     telemetry.addLine();
-                    telemetry.addLine("END TRIANGLE!");
+                    telemetry.addLine("MORE POWER");
                     Lwheel.setVelocity(maxRPMForPositionUno);
                     Rwheel.setVelocity(maxRPMForPositionUno);
                 } else if (gamepad.dpad_right) {
                     telemetry.addLine();
-                    telemetry.addLine("MID TRIANGE!");
-                    Lwheel.setVelocity(maxRPMForPositionDos);
-                    Rwheel.setVelocity(maxRPMForPositionDos);
-                } else {
-                    telemetry.addLine();
-                    telemetry.addLine("FARTHEST LAUNCH");
+                    telemetry.addLine("EVEN MORE POWER");
                     Lwheel.setVelocity(maxRPM);
                     Rwheel.setVelocity(maxRPM);
+                } else {
+                    telemetry.addLine();
+                    telemetry.addLine("LAUNCHER ON!");
+                    Lwheel.setVelocity(maxRPMForPositionDos);
+                    Rwheel.setVelocity(maxRPMForPositionDos);
                 }
             } else {
                 Lwheel.setVelocity(0);
